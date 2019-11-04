@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"encoding/json"
 	"time"
-	"jindouyun/jdyError"
+	"../jdyError"
 	"net/url"
 	"sort"
 	"crypto/md5"

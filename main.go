@@ -1,15 +1,14 @@
 package main
 
 import (
-	//"jindouyun/config"
 	"fmt"
 	//"encoding/json"
-	"jindouyun/jdyError"
+	"./jdyError"
 	"bufio"
 	"os"
 	"strings"
-	"jindouyun/company"
-	"jindouyun/config"
+	"./company"
+	"./config"
 )
 
 func main() {

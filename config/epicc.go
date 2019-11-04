@@ -1,14 +1,14 @@
 package config
 
 import (
-	"jindouyun/jdyError"
+	"../jdyError"
 	"bufio"
 	"os"
 	"fmt"
 	"strings"
-	"jindouyun/util"
+	"../util"
 	"encoding/json"
-	"jindouyun/data"
+	"../data"
 )
 
 /**
@@ -16,13 +16,17 @@ import (
  */
 type JinDouYunEpicc struct {
 	JinDouYunConfig
-	BelongOrg        string
-	BelongPerson     string
-	Channel          string
-	BelongDepartment string
-	OperatorNo       string
-	AgentPoint       string
-	Xsryzyzhm        string
+	Id               string `json:"id"`
+	ProxyId          string `json:"proxy_id"`
+	BusinessSrc      string `json:"business_src"`
+	SalesChannel     string `json:"business_src"`
+	BelongOrg        string `json:"belong_org"`
+	BelongPerson     string `json:"belong_person"`
+	Channel          string `json:"channel"`
+	BelongDepartment string `json:"belong_department"`
+	OperatorNo       string `json:"operator_no"`
+	AgentPoint       string `json:"agent_point"`
+	Xsryzyzhm        string `json:"xsryzyzhm"`
 }
 
 /**********************人保操作开始*************************/
@@ -38,19 +42,14 @@ func (epicc *JinDouYunEpicc) Run() {
 		switch input {
 		case "3":
 			epicc.add()
-			os.Exit(0)
 		case "4":
 			epicc.update()
-			os.Exit(0)
 		case "5":
 			epicc.delete()
-			os.Exit(0)
 		case "1":
 			epicc.list()
-			os.Exit(0)
 		case "2":
 			epicc.detail()
-			os.Exit(0)
 		case "6":
 			println("取消操作")
 			os.Exit(0)
@@ -60,9 +59,6 @@ func (epicc *JinDouYunEpicc) Run() {
 	}
 }
 
-/**
-添加账号操作
- */
 func (epicc *JinDouYunEpicc) add()  {
 	epicc.Set()
 	//fmt.Printf("%s\n", epicc)
@@ -121,47 +117,6 @@ func (epicc *JinDouYunEpicc) update() {
 }
 
 /**
-获取列表
- */
-func (epicc *JinDouYunEpicc) list() {
-	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请选择:\n1.查看\n2.返回\n3.退出")
-	for {
-		input, err := inputReader.ReadString('\n')
-		jdyError.CheckError(err, true)
-		input = strings.TrimSpace(input)
-
-		switch input {
-		case "1":
-			epicc.getList()
-			os.Exit(0)
-		case "2":
-			epicc.Run()
-		case "3":
-			fmt.Println("退出")
-			os.Exit(0)
-		default:
-			continue
-		}
-	}
-}
-
-/**
-获取详情
- */
-func (epicc *JinDouYunEpicc) detail()  {
-	
-}
-
-/**
-删除操作
- */
-
-func (epicc *JinDouYunEpicc) delete() {
-	
-}
- 
-/**
 设置各种参数
  */
 func (epicc *JinDouYunEpicc) Set() {
@@ -186,31 +141,21 @@ func (epicc *JinDouYunEpicc) Set() {
 	if epicc.ProxyId == "" {
 		epicc.handle("代理ID(ProxyId)", epicc.setProxyId)
 	}
+	if epicc.SalesChannel == "" {
+		epicc.handle("销售渠道(SalesChannel)", epicc.setSalesChannel)
+	}
 	if epicc.BelongOrg == "" {
 		epicc.handle("出单机构(BelongOrg)", epicc.setBelongOrg)
 	}
-
-}
-
-/**
-处理参数赋值
- */
-func (epicc *JinDouYunEpicc) handle(lab string, handler HandleFunc) {
-
-	fmt.Printf("输入%s的值:\n", lab)
-	inputReader := bufio.NewReader(os.Stdin)
-	input, err := inputReader.ReadString('\n')
-	jdyError.CheckError(err, false)
-	input = strings.TrimSpace(input)
-
-	switch input {
-	case "":
-		fmt.Printf("%s输入为空.\n", lab)
-	default:
-		fmt.Printf("%s输入为:%s\n", lab, input)
-		handler(input)
+	if epicc.BelongDepartment == "" {
+		epicc.handle("归属部门(BelongDepartment)", epicc.setBelongDepartment)
 	}
-
+	if epicc.BelongPerson == "" {
+		epicc.handle("归属人(BelongPerson)", epicc.setBelongPerson)
+	}
+	if epicc.OperatorNo == "" {
+		epicc.handle("经办人(OperatorNo)", epicc.setOperatorNo)
+	}
 }
 
 /**********************参数赋值方法*************************/
@@ -256,6 +201,120 @@ func (epicc *JinDouYunEpicc) setBelongOrg(belong interface{}) {
 	}
 }
 
+func (epicc *JinDouYunEpicc) setSalesChannel(salesChannel interface{})  {
+	util := util.GetJinDouYunUtil(epicc.Address, epicc.AppId, epicc.AppKey)
+
+	query := map[string]string{}
+	query["apiUrl"] = "ic-accounts/" + epicc.CityCode + "/epicc/sales_channel/options"
+	query["user"] = epicc.User
+	query["pass"] = epicc.Pass
+	query["proxy_id"] = epicc.ProxyId
+
+	re, err := util.IcAccountsOptions(query)
+	jdyError.CheckError(err, true)
+
+	reData := data.OptionsData{}
+	json.Unmarshal(re, &reData)
+	for _, v := range reData.Options {
+		if v.Value == salesChannel.(string) {
+			epicc.SalesChannel = v.Value
+			fmt.Printf("销售渠道(SalesChannel)的值为:%s\n", epicc.SalesChannel)
+			return
+		}
+		if v.Text == salesChannel.(string) {
+			epicc.SalesChannel = v.Value
+			fmt.Printf("销售渠道(SalesChannel)的值为:%s\n", epicc.SalesChannel)
+			return
+		}
+	}
+}
+
+func (epicc *JinDouYunEpicc) setBelongDepartment(belongDepartment interface{})  {
+	util := util.GetJinDouYunUtil(epicc.Address, epicc.AppId, epicc.AppKey)
+
+	query := map[string]string{}
+	query["apiUrl"] = "ic-accounts/" + epicc.CityCode + "/epicc/belong_department/options"
+	query["user"] = epicc.User
+	query["pass"] = epicc.Pass
+	query["proxy_id"] = epicc.ProxyId
+
+	re, err := util.IcAccountsOptions(query)
+	jdyError.CheckError(err, true)
+
+	reData := data.OptionsData{}
+	json.Unmarshal(re, &reData)
+	for _, v := range reData.Options {
+		if v.Value == belongDepartment.(string) {
+			epicc.BelongDepartment = v.Value
+			fmt.Printf("归属部门(BelongDepartment)的值为:%s\n", epicc.BelongDepartment)
+			return
+		}
+		if v.Text == belongDepartment.(string) {
+			epicc.BelongDepartment = v.Value
+			fmt.Printf("归属部门(BelongDepartment)的值为:%s\n", epicc.BelongDepartment)
+			return
+		}
+	}
+}
+
+func (epicc *JinDouYunEpicc) setBelongPerson(belongPerson interface{}) {
+	util := util.GetJinDouYunUtil(epicc.Address, epicc.AppId, epicc.AppKey)
+
+	query := map[string]string{}
+	query["apiUrl"] = "ic-accounts/" + epicc.CityCode + "/epicc/belong_person/options"
+	query["user"] = epicc.User
+	query["pass"] = epicc.Pass
+	query["proxy_id"] = epicc.ProxyId
+	query["belong_department"] = epicc.BelongDepartment
+
+	re, err := util.IcAccountsOptions(query)
+	jdyError.CheckError(err, true)
+
+	reData := data.OptionsData{}
+	json.Unmarshal(re, &reData)
+	for _, v := range reData.Options {
+		if v.Value == belongPerson.(string) {
+			epicc.BelongPerson = v.Value
+			fmt.Printf("归属人(BelongPerson)的值为:%s\n", epicc.BelongPerson)
+			return
+		}
+		if v.Text == belongPerson.(string) {
+			epicc.BelongPerson = v.Value
+			fmt.Printf("归属人(BelongPerson)的值为:%s\n", epicc.BelongPerson)
+			return
+		}
+	}
+}
+
+func (epicc *JinDouYunEpicc) setOperatorNo(operatorNo interface{})  {
+	util := util.GetJinDouYunUtil(epicc.Address, epicc.AppId, epicc.AppKey)
+
+	query := map[string]string{}
+	query["apiUrl"] = "ic-accounts/" + epicc.CityCode + "/epicc/operator_no/options"
+	query["user"] = epicc.User
+	query["pass"] = epicc.Pass
+	query["proxy_id"] = epicc.ProxyId
+	query["belong_department"] = epicc.BelongDepartment
+
+	re, err := util.IcAccountsOptions(query)
+	jdyError.CheckError(err, true)
+
+	reData := data.OptionsData{}
+	json.Unmarshal(re, &reData)
+	for _, v := range reData.Options {
+		if v.Value == operatorNo.(string) {
+			epicc.OperatorNo = v.Value
+			fmt.Printf("归属人(OperatorNo)的值为:%s\n", epicc.OperatorNo)
+			return
+		}
+		if v.Text == operatorNo.(string) {
+			epicc.OperatorNo = v.Value
+			fmt.Printf("归属人(OperatorNo)的值为:%s\n", epicc.OperatorNo)
+			return
+		}
+	}
+}
+
 func (epicc *JinDouYunEpicc) setCityCode() {
 	fmt.Println("请选择城市编码的值:\n1.佛山\n2.东莞")
 	inputReader := bufio.NewReader(os.Stdin)
@@ -277,8 +336,6 @@ func (epicc *JinDouYunEpicc) setCityCode() {
 func (epicc *JinDouYunEpicc) setProxyId(proxyId interface{}) {
 	epicc.ProxyId = proxyId.(string)
 }
-
-
 
 func (epicc *JinDouYunEpicc) setUser(user interface{}) {
 	epicc.User = user.(string)
@@ -340,13 +397,26 @@ func (epicc *JinDouYunEpicc) updateAccount() {
 /**
 获取列表
  */
-func (epicc *JinDouYunEpicc) getList() {
-	util := util.GetJinDouYunUtil(epicc.Address, epicc.AppId, epicc.AppKey)
+func (epicc *JinDouYunEpicc) list() {
+	inputReader := bufio.NewReader(os.Stdin)
+	fmt.Println("请选择:\n1.查看\n2.返回\n3.退出")
+	for {
+		input, err := inputReader.ReadString('\n')
+		jdyError.CheckError(err, true)
+		input = strings.TrimSpace(input)
 
-	query := map[string]string{}
-	query["apiUrl"] = "accounts"
-
-	re, err := util.Account(query, "GET", nil)
-	jdyError.CheckError(err, true)
-	fmt.Printf("%s\n", re)
+		switch input {
+		case "1":
+			epicc.getList()
+			os.Exit(0)
+		case "2":
+			epicc.Run()
+		case "3":
+			fmt.Println("退出")
+			os.Exit(0)
+		default:
+			continue
+		}
+	}
 }
+
