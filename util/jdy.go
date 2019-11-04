@@ -38,12 +38,12 @@ func GetJinDouYunUtil(url, appId, appKey string) *JinDouYunUtil {
 }
 
 func (u *JinDouYunUtil) request(query map[string]string, method string, data map[string]interface{}) ([]byte, error) {
-	url := u.Url + "/" + u.getApiQueryString(query)
-	//println(url)
+	uri := u.Url + "/" + u.getApiQueryString(query)
+	println(uri[:len(uri)-1])
 	//return nil,nil
 	jsonStr, err := json.Marshal(data)
 
-	req, err := http.NewRequest(method, url, bytes.NewBuffer(jsonStr))
+	req, err := http.NewRequest(method, uri[:len(uri)-1], bytes.NewBuffer(jsonStr))
 
 	req.Header.Set("Accept", u.Accept)
 	req.Header.Set("Authorization", "appid " + u.AppId)
