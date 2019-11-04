@@ -1,4 +1,4 @@
-package config
+package account
 
 import (
 	"bufio"
@@ -14,6 +14,9 @@ import (
  */
 type JinDouYunTpy struct {
 	JinDouYunConfig
+	User      string `json:"user"`
+	Pass      string `json:"pass"`
+	IsDefault bool   `json:"is_default"`
 }
 
 func (tpy *JinDouYunTpy) Run() {
@@ -164,7 +167,7 @@ func (tpy *JinDouYunTpy) postAccount() {
 	data["ic_code"] = "epicn"
 	data["city_code"] = tpy.CityCode
 
-	re, err := util.Account(query, "POST", data)
+	re, err := util.Request(query, "POST", data)
 	jdyError.CheckError(err, true)
 	fmt.Printf("%s\n", re)
 }

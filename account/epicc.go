@@ -1,4 +1,4 @@
-package config
+package account
 
 import (
 	"../jdyError"
@@ -16,7 +16,9 @@ import (
  */
 type JinDouYunEpicc struct {
 	JinDouYunConfig
-	Id               string `json:"id"`
+	User             string `json:"user"`
+	Pass             string `json:"pass"`
+	IsDefault        bool   `json:"is_default"`
 	ProxyId          string `json:"proxy_id"`
 	BusinessSrc      string `json:"business_src"`
 	SalesChannel     string `json:"business_src"`
@@ -63,7 +65,7 @@ func (epicc *JinDouYunEpicc) Run() {
 func (epicc *JinDouYunEpicc) add()  {
 	epicc.Set()
 	//fmt.Printf("%s\n", epicc)
-	return
+	//return
 	inputReader := bufio.NewReader(os.Stdin)
 	fmt.Println("请确认:\n1.正确\n2.重新设置\n3.取消")
 	for {
@@ -77,6 +79,7 @@ func (epicc *JinDouYunEpicc) add()  {
 			epicc.postAccount()
 			os.Exit(0)
 		case "2":
+			epicc.Clear()
 			epicc.add()
 		case "3":
 			fmt.Println("已取消操作")
@@ -93,7 +96,6 @@ func (epicc *JinDouYunEpicc) add()  {
 func (epicc *JinDouYunEpicc) update() {
 	epicc.Set()
 	//fmt.Printf("%s\n", epicc)
-	return
 	inputReader := bufio.NewReader(os.Stdin)
 	fmt.Println("请确认:\n1.正确\n2.重新设置\n3.取消")
 	for {
@@ -107,6 +109,7 @@ func (epicc *JinDouYunEpicc) update() {
 			epicc.updateAccount()
 			os.Exit(0)
 		case "2":
+			epicc.Clear()
 			epicc.update()
 		case "3":
 			fmt.Println("已取消操作")
@@ -122,68 +125,72 @@ func (epicc *JinDouYunEpicc) update() {
  */
 func (epicc *JinDouYunEpicc) Set() {
 	if epicc.Address == "" {
-		epicc.handle("Address", epicc.setAddress)
+		epicc.Handle("Address", epicc.SetAddress)
 	}
 	if epicc.AppId == "" {
-		epicc.handle("AppId", epicc.setAppId)
+		epicc.Handle("AppId", epicc.SetAppId)
 	}
 	if epicc.AppKey == "" {
-		epicc.handle("AppKey", epicc.setAppKey)
+		epicc.Handle("AppKey", epicc.SetAppKey)
 	}
 	if epicc.CityCode == "" {
-		epicc.setCityCode()
+		epicc.SetCityCode()
 	}
 	if epicc.User == "" {
-		epicc.handle("User", epicc.setUser)
+		epicc.Handle("User", epicc.setUser)
 	}
 	if epicc.Pass == "" {
-		epicc.handle("Pass", epicc.setPass)
+		epicc.Handle("Pass", epicc.setPass)
 	}
 	if epicc.ProxyId == "" {
-		epicc.handle("代理ID(ProxyId)", epicc.setProxyId)
+		epicc.Handle("代理ID(ProxyId)", epicc.setProxyId)
 	}
 	if epicc.SalesChannel == "" {
-		epicc.handle("销售渠道(SalesChannel)", epicc.setSalesChannel)
+		epicc.Handle("销售渠道(SalesChannel)", epicc.setSalesChannel)
 	}
 	if epicc.BelongOrg == "" {
-		epicc.handle("出单机构(BelongOrg)", epicc.setBelongOrg)
+		epicc.Handle("出单机构(BelongOrg)", epicc.setBelongOrg)
 	}
 	if epicc.BelongDepartment == "" {
-		epicc.handle("归属部门(BelongDepartment)", epicc.setBelongDepartment)
+		epicc.Handle("归属部门(BelongDepartment)", epicc.setBelongDepartment)
 	}
 	if epicc.BelongPerson == "" {
-		epicc.handle("归属人(BelongPerson)", epicc.setBelongPerson)
+		epicc.Handle("归属人(BelongPerson)", epicc.setBelongPerson)
 	}
 	if epicc.OperatorNo == "" {
-		epicc.handle("经办人(OperatorNo)", epicc.setOperatorNo)
+		epicc.Handle("经办人(OperatorNo)", epicc.setOperatorNo)
 	}
 	if epicc.BusinessSrc == "" {
-		epicc.handle("业务来源(BusinessSrc)", epicc.setBusinessSrc)
+		epicc.Handle("业务来源(BusinessSrc)", epicc.setBusinessSrc)
 	}
 	if epicc.StaffCode == "" {
-		epicc.handle("验车人(StaffCode)", epicc.setStaffCode)
+		epicc.Handle("验车人(StaffCode)", epicc.setStaffCode)
 	}
 	if epicc.AgentPoint == "" {
-		epicc.handle("渠道代码(AgentPoint)", epicc.setAgentPoint)
+		epicc.Handle("渠道代码(AgentPoint)", epicc.setAgentPoint)
 	}
 	if epicc.Xsryzyzhm == "" {
-		epicc.handle("中介机构销售人员名称(Xsryzyzhm)",epicc.setXsryzyzhm)
+		epicc.Handle("中介机构销售人员名称(Xsryzyzhm)",epicc.setXsryzyzhm)
 	}
 }
 
+func (epicc *JinDouYunEpicc) Clear()  {
+	epicc.CityCode = ""
+	epicc.User = ""
+	epicc.Pass = ""
+	epicc.ProxyId = ""
+	epicc.SalesChannel = ""
+	epicc.BelongOrg = ""
+	epicc.BelongDepartment = ""
+	epicc.BelongPerson = ""
+	epicc.OperatorNo = ""
+	epicc.BusinessSrc = ""
+	epicc.StaffCode = ""
+	epicc.AgentPoint = ""
+	epicc.Xsryzyzhm = ""
+	epicc.Id = ""
+}
 /**********************参数赋值方法*************************/
-
-func (epicc *JinDouYunEpicc) setAddress(address interface{}) {
-	epicc.Address = address.(string)
-}
-
-func (epicc *JinDouYunEpicc) setAppId(appid interface{}) {
-	epicc.AppId = appid.(string)
-}
-
-func (epicc *JinDouYunEpicc) setAppKey(appKey interface{}) {
-	epicc.AppKey = appKey.(string)
-}
 
 func (epicc *JinDouYunEpicc) setProxyId(proxyId interface{}) {
 	epicc.ProxyId = proxyId.(string)
@@ -197,24 +204,6 @@ func (epicc *JinDouYunEpicc) setPass(pass interface{}) {
 	epicc.Pass = pass.(string)
 }
 
-func (epicc *JinDouYunEpicc) setCityCode() {
-	fmt.Println("请选择城市编码的值:\n1.佛山\n2.东莞")
-	inputReader := bufio.NewReader(os.Stdin)
-	input, err := inputReader.ReadString('\n')
-	jdyError.CheckError(err, false)
-	input = strings.TrimSpace(input)
-
-	switch input {
-	case "1":
-		epicc.CityCode = "440600"
-	case "2":
-		epicc.CityCode = "441900"
-	default:
-		fmt.Println("城市编码输入错误")
-		epicc.setCityCode()
-	}
-}
-
 func (epicc *JinDouYunEpicc) setBelongOrg(belong interface{}) {
 	util := util.GetJinDouYunUtil(epicc.Address, epicc.AppId, epicc.AppKey)
 
@@ -224,24 +213,20 @@ func (epicc *JinDouYunEpicc) setBelongOrg(belong interface{}) {
 	query["pass"] = epicc.Pass
 	query["proxy_id"] = epicc.ProxyId
 
-	re, err := util.IcAccountsOptions(query)
+	re, err := util.Request(query,"GET",nil)
 	jdyError.CheckError(err, true)
 
 	reData := data.OptionsData{}
 	json.Unmarshal(re, &reData)
 
 	for _,v := range reData.Options {
-		if v.Value == belong.(string) {
-			epicc.BelongOrg = v.Value
-			fmt.Printf("出单机构(BelongOrg)的值为:%s\n",epicc.BelongOrg)
-			return
-		}
-		if v.Text == belong.(string) {
+		if v.Value == belong.(string) || v.Text == belong.(string){
 			epicc.BelongOrg = v.Value
 			fmt.Printf("出单机构(BelongOrg)的值为:%s\n",epicc.BelongOrg)
 			return
 		}
 	}
+	fmt.Println("出单机构(BelongOrg)的值未获取到")
 }
 
 func (epicc *JinDouYunEpicc) setSalesChannel(salesChannel interface{})  {
@@ -253,13 +238,13 @@ func (epicc *JinDouYunEpicc) setSalesChannel(salesChannel interface{})  {
 	query["pass"] = epicc.Pass
 	query["proxy_id"] = epicc.ProxyId
 
-	re, err := util.IcAccountsOptions(query)
+	re, err := util.Request(query,"GET",nil)
 	jdyError.CheckError(err, true)
 
 	reData := data.OptionsData{}
 	json.Unmarshal(re, &reData)
-	fmt.Printf("data:%s\n",reData)
-	os.Exit(0)
+
+	//os.Exit(0)
 	for _, v := range reData.Options {
 		if v.Value == salesChannel.(string) || v.Text == salesChannel.(string) {
 			epicc.SalesChannel = v.Value
@@ -267,6 +252,7 @@ func (epicc *JinDouYunEpicc) setSalesChannel(salesChannel interface{})  {
 			return
 		}
 	}
+	fmt.Println("销售渠道(SalesChannel)的值未获取到")
 }
 
 func (epicc *JinDouYunEpicc) setBelongDepartment(belongDepartment interface{})  {
@@ -278,23 +264,19 @@ func (epicc *JinDouYunEpicc) setBelongDepartment(belongDepartment interface{})  
 	query["pass"] = epicc.Pass
 	query["proxy_id"] = epicc.ProxyId
 
-	re, err := util.IcAccountsOptions(query)
+	re, err := util.Request(query,"GET",nil)
 	jdyError.CheckError(err, true)
 
 	reData := data.OptionsData{}
 	json.Unmarshal(re, &reData)
 	for _, v := range reData.Options {
-		if v.Value == belongDepartment.(string) {
-			epicc.BelongDepartment = v.Value
-			fmt.Printf("归属部门(BelongDepartment)的值为:%s\n", epicc.BelongDepartment)
-			return
-		}
-		if v.Text == belongDepartment.(string) {
+		if v.Value == belongDepartment.(string) || v.Text == belongDepartment.(string) {
 			epicc.BelongDepartment = v.Value
 			fmt.Printf("归属部门(BelongDepartment)的值为:%s\n", epicc.BelongDepartment)
 			return
 		}
 	}
+	fmt.Println("归属部门(BelongDepartment)的值未获取到")
 }
 
 func (epicc *JinDouYunEpicc) setBelongPerson(belongPerson interface{}) {
@@ -307,23 +289,19 @@ func (epicc *JinDouYunEpicc) setBelongPerson(belongPerson interface{}) {
 	query["proxy_id"] = epicc.ProxyId
 	query["belong_department"] = epicc.BelongDepartment
 
-	re, err := util.IcAccountsOptions(query)
+	re, err := util.Request(query,"GET",nil)
 	jdyError.CheckError(err, true)
 
 	reData := data.OptionsData{}
 	json.Unmarshal(re, &reData)
 	for _, v := range reData.Options {
-		if v.Value == belongPerson.(string) {
-			epicc.BelongPerson = v.Value
-			fmt.Printf("归属人(BelongPerson)的值为:%s\n", epicc.BelongPerson)
-			return
-		}
-		if v.Text == belongPerson.(string) {
+		if v.Value == belongPerson.(string) || v.Text == belongPerson.(string){
 			epicc.BelongPerson = v.Value
 			fmt.Printf("归属人(BelongPerson)的值为:%s\n", epicc.BelongPerson)
 			return
 		}
 	}
+	fmt.Println("归属人(BelongPerson)的值未获取到")
 }
 
 func (epicc *JinDouYunEpicc) setOperatorNo(operatorNo interface{})  {
@@ -336,23 +314,19 @@ func (epicc *JinDouYunEpicc) setOperatorNo(operatorNo interface{})  {
 	query["proxy_id"] = epicc.ProxyId
 	query["belong_department"] = epicc.BelongDepartment
 
-	re, err := util.IcAccountsOptions(query)
+	re, err := util.Request(query,"GET",nil)
 	jdyError.CheckError(err, true)
 
 	reData := data.OptionsData{}
 	json.Unmarshal(re, &reData)
 	for _, v := range reData.Options {
-		if v.Value == operatorNo.(string) {
+		if v.Value == operatorNo.(string) || v.Text == operatorNo.(string) {
 			epicc.OperatorNo = v.Value
-			fmt.Printf("归属人(OperatorNo)的值为:%s\n", epicc.OperatorNo)
-			return
-		}
-		if v.Text == operatorNo.(string) {
-			epicc.OperatorNo = v.Value
-			fmt.Printf("归属人(OperatorNo)的值为:%s\n", epicc.OperatorNo)
+			fmt.Printf("经办人(OperatorNo)的值为:%s\n", epicc.OperatorNo)
 			return
 		}
 	}
+	fmt.Println("经办人(OperatorNo)的值未获取到")
 }
 
 func (epicc *JinDouYunEpicc) setBusinessSrc(value interface{})  {
@@ -365,23 +339,19 @@ func (epicc *JinDouYunEpicc) setBusinessSrc(value interface{})  {
 	query["proxy_id"] = epicc.ProxyId
 	query["belong_department"] = epicc.BelongDepartment
 
-	re, err := util.IcAccountsOptions(query)
+	re, err := util.Request(query,"GET",nil)
 	jdyError.CheckError(err, true)
 
 	reData := data.OptionsData{}
 	json.Unmarshal(re, &reData)
 	for _, v := range reData.Options {
-		if v.Value == value.(string) {
-			epicc.BusinessSrc = v.Value
-			fmt.Printf("业务来源(BusinessSrc)的值为:%s\n", epicc.BusinessSrc)
-			return
-		}
-		if v.Text == value.(string) {
+		if v.Value == value.(string) || v.Text == value.(string) {
 			epicc.BusinessSrc = v.Value
 			fmt.Printf("业务来源(BusinessSrc)的值为:%s\n", epicc.BusinessSrc)
 			return
 		}
 	}
+	fmt.Println("业务来源(BusinessSrc)的值未获取到")
 }
 
 func (epicc *JinDouYunEpicc) setStaffCode(value interface{})  {
@@ -394,23 +364,19 @@ func (epicc *JinDouYunEpicc) setStaffCode(value interface{})  {
 	query["proxy_id"] = epicc.ProxyId
 	query["belong_department"] = epicc.BelongDepartment
 
-	re, err := util.IcAccountsOptions(query)
+	re, err := util.Request(query,"GET",nil)
 	jdyError.CheckError(err, true)
 
 	reData := data.OptionsData{}
 	json.Unmarshal(re, &reData)
 	for _, v := range reData.Options {
-		if v.Value == value.(string) {
-			epicc.StaffCode = v.Value
-			fmt.Printf("验车人(StaffCode)的值为:%s\n", epicc.StaffCode)
-			return
-		}
-		if v.Text == value.(string) {
+		if v.Value == value.(string) || v.Text == value.(string){
 			epicc.StaffCode = v.Value
 			fmt.Printf("验车人(StaffCode)的值为:%s\n", epicc.StaffCode)
 			return
 		}
 	}
+	fmt.Println("验车人(StaffCode)的值未获取到")
 }
 
 func (epicc *JinDouYunEpicc) setAgentPoint(input interface{}) {
@@ -424,23 +390,19 @@ func (epicc *JinDouYunEpicc) setAgentPoint(input interface{}) {
 	query["belong_department"] = epicc.BelongDepartment
 	query["business_src"] = epicc.BusinessSrc
 
-	re, err := util.IcAccountsOptions(query)
+	re, err := util.Request(query,"GET",nil)
 	jdyError.CheckError(err, true)
 
 	reData := data.OptionsData{}
 	json.Unmarshal(re, &reData)
 	for _, v := range reData.Options {
-		if v.Value == input.(string) {
-			epicc.AgentPoint = v.Value
-			fmt.Printf("渠道代码(AgentPoint)的值为:%s\n", epicc.AgentPoint)
-			return
-		}
-		if v.Text == input.(string) {
+		if v.Value == input.(string) || v.Text == input.(string){
 			epicc.AgentPoint = v.Value
 			fmt.Printf("渠道代码(AgentPoint)的值为:%s\n", epicc.AgentPoint)
 			return
 		}
 	}
+	fmt.Println("渠道代码(AgentPoint)的值未获取到")
 }
 
 func (epicc *JinDouYunEpicc) setXsryzyzhm(input interface{}) {
@@ -455,23 +417,19 @@ func (epicc *JinDouYunEpicc) setXsryzyzhm(input interface{}) {
 	query["business_src"] = epicc.BusinessSrc
 	query["belong_org"] = epicc.BelongOrg
 
-	re, err := util.IcAccountsOptions(query)
+	re, err := util.Request(query,"GET",nil)
 	jdyError.CheckError(err, true)
 
 	reData := data.OptionsData{}
 	json.Unmarshal(re, &reData)
 	for _, v := range reData.Options {
-		if v.Value == input.(string) {
-			epicc.Xsryzyzhm = v.Value
-			fmt.Printf("中介机构销售人员名称(Xsryzyzhm)的值为:%s\n", epicc.Xsryzyzhm)
-			return
-		}
-		if v.Text == input.(string) {
+		if v.Value == input.(string) || v.Text == input.(string){
 			epicc.Xsryzyzhm = v.Value
 			fmt.Printf("中介机构销售人员名称(Xsryzyzhm)的值为:%s\n", epicc.Xsryzyzhm)
 			return
 		}
 	}
+	fmt.Println("中介机构销售人员名称(Xsryzyzhm)的值未获取到")
 }
 
 /**
@@ -480,7 +438,7 @@ func (epicc *JinDouYunEpicc) setXsryzyzhm(input interface{}) {
 func (epicc *JinDouYunEpicc) postAccount() {
 	util := util.GetJinDouYunUtil(epicc.Address, epicc.AppId, epicc.AppKey)
 	//fmt.Printf("%s\n", util)
-
+	return
 	query := map[string]string{}
 	query["apiUrl"] = "accounts"
 
@@ -511,7 +469,7 @@ func (epicc *JinDouYunEpicc) postAccount() {
 	data["ic_code"] = "epicc"
 	data["city_code"] = epicc.CityCode
 
-	re, err := util.Account(query, "POST", data)
+	re, err := util.Request(query, "POST", data)
 	jdyError.CheckError(err, true)
 	fmt.Printf("%s\n", re)
 }

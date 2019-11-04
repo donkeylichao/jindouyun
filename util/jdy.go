@@ -37,9 +37,9 @@ func GetJinDouYunUtil(url, appId, appKey string) *JinDouYunUtil {
 	return &util
 }
 
-func (u *JinDouYunUtil) request(query map[string]string, method string, data map[string]interface{}) ([]byte, error) {
+func (u *JinDouYunUtil) Request(query map[string]string, method string, data map[string]interface{}) ([]byte, error) {
 	uri := u.Url + "/" + u.getApiQueryString(query)
-	println(uri[:len(uri)-1])
+	//println(uri[:len(uri)-1])
 	//return nil,nil
 	jsonStr, err := json.Marshal(data)
 
@@ -131,23 +131,3 @@ func (u *JinDouYunUtil) getApiQueryString(query map[string]string) string {
 	return queryParam
 }
 
-/**
-保险公司账号操作
- */
-func (u *JinDouYunUtil) Account(query map[string]string, method string, data map[string]interface{}) ([]byte, error) {
-	return u.request(query, method, data)
-}
-
-/**
-校验保险公司账号合法性
- */
-func (u *JinDouYunUtil) IcAccounts(query map[string]string) ([]byte, error) {
-	return u.request(query, "GET", nil)
-}
-
-/**
-获取账号字段保险公司可选值
- */
-func (u *JinDouYunUtil) IcAccountsOptions(query map[string]string) ([]byte, error) {
-	return u.request(query, "GET", nil)
-}

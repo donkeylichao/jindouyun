@@ -2,34 +2,82 @@ package main
 
 import (
 	"fmt"
-	//"encoding/json"
 	"./jdyError"
 	"bufio"
 	"os"
 	"strings"
-	"./company"
-	"./config"
+	"./account"
+	"./proxy"
+	"encoding/json"
 )
 
 func main() {
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请选择公司:\n1.人保\n2.太平洋\n3.平安")
-	input,err := inputReader.ReadString('\n')
-	jdyError.CheckError(err,true)
+	fmt.Println("请选择操作:\n1.代理\n2.账号\n3.元数据")
+	input, err := inputReader.ReadString('\n')
+	jdyError.CheckError(err, true)
 	input = strings.TrimSpace(input)
 
-	company := config.GetCompany(company.SetCompany(input))
+	switch input {
+	case "1":
+		proxyHandle()
+	case "2":
+		accountHandle()
+	case "3":
+		metaHandle()
+	default:
+		jdyError.CheckError(jdyError.ErrNotSupportHandle, true)
+	}
+}
+
+func proxyHandle() {
+	inputReader := bufio.NewReader(os.Stdin)
+	fmt.Println("请选择操作:\n1.列表\n2.添加\n3.编辑")
+	input, err := inputReader.ReadString('\n')
+	jdyError.CheckError(err, true)
+	input = strings.TrimSpace(input)
+
+	var jdyProxy proxy.JinDouYunProxy
+	conf, err := account.ReadAll("./config.json")
+	jdyError.CheckError(err, true)
+	err = json.Unmarshal(conf, &jdyProxy)
+	jdyError.CheckError(err, true)
+
+	switch input {
+	case "1":
+		jdyProxy.List()
+	case "2":
+		jdyProxy.Add()
+	case "3":
+		jdyProxy.Update()
+	default:
+		jdyError.CheckError(jdyError.ErrNotSupportHandle, true)
+	}
+}
+
+func accountHandle() {
+	inputReader := bufio.NewReader(os.Stdin)
+	fmt.Println("请选择公司:\n1.人保\n2.太平洋\n3.平安")
+	input, err := inputReader.ReadString('\n')
+	jdyError.CheckError(err, true)
+	input = strings.TrimSpace(input)
+
+	company := account.GetCompany(account.SetCompany(input))
 	switch company.(type) {
-	case config.JinDouYunEpicc:
-		com := company.(config.JinDouYunEpicc)
+	case account.JinDouYunEpicc:
+		com := company.(account.JinDouYunEpicc)
 		com.Run()
-	case config.JinDouYunPinAn:
-		com := company.(config.JinDouYunPinAn)
+	case account.JinDouYunPinAn:
+		com := company.(account.JinDouYunPinAn)
 		com.Run()
-	case config.JinDouYunTpy:
-		com := company.(config.JinDouYunTpy)
+	case account.JinDouYunTpy:
+		com := company.(account.JinDouYunTpy)
 		com.Run()
 	default:
 		jdyError.CheckError(jdyError.ErrCompanyNotExists, true)
 	}
+}
+
+func metaHandle()  {
+	
 }

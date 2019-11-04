@@ -1,4 +1,4 @@
-package config
+package account
 
 import (
 	"../jdyError"
@@ -14,6 +14,9 @@ import (
  */
 type JinDouYunPinAn struct {
 	JinDouYunConfig
+	User      string `json:"user"`
+	Pass      string `json:"pass"`
+	IsDefault bool   `json:"is_default"`
 }
 
 func (pingan *JinDouYunPinAn) Run() {
@@ -164,7 +167,7 @@ func (pingan *JinDouYunPinAn) postAccount() {
 	data["ic_code"] = "pingan"
 	data["city_code"] = pingan.CityCode
 
-	re, err := util.Account(query, "POST", data)
+	re, err := util.Request(query, "POST", data)
 	jdyError.CheckError(err, true)
 	fmt.Printf("%s\n", re)
 }
