@@ -18,7 +18,7 @@ type JinDouYunEpicc struct {
 	JinDouYunConfig
 	User             string `json:"user"`
 	Pass             string `json:"pass"`
-	IsDefault        bool   `json:"is_default"`
+	Lock             bool   `json:"lock"`
 	ProxyId          string `json:"proxy_id"`
 	BusinessSrc      string `json:"business_src"`
 	SalesChannel     string `json:"business_src"`
@@ -136,6 +136,7 @@ func (epicc *JinDouYunEpicc) Set() {
 	if epicc.CityCode == "" {
 		epicc.SetCityCode()
 	}
+	epicc.SetIsDefault()
 	if epicc.User == "" {
 		epicc.Handle("User", epicc.setUser)
 	}
@@ -172,6 +173,7 @@ func (epicc *JinDouYunEpicc) Set() {
 	if epicc.Xsryzyzhm == "" {
 		epicc.Handle("中介机构销售人员名称(Xsryzyzhm)",epicc.setXsryzyzhm)
 	}
+
 }
 
 func (epicc *JinDouYunEpicc) Clear()  {
@@ -189,6 +191,7 @@ func (epicc *JinDouYunEpicc) Clear()  {
 	epicc.AgentPoint = ""
 	epicc.Xsryzyzhm = ""
 	epicc.Id = ""
+	epicc.Channel = ""
 }
 /**********************参数赋值方法*************************/
 
@@ -438,25 +441,25 @@ func (epicc *JinDouYunEpicc) setXsryzyzhm(input interface{}) {
 func (epicc *JinDouYunEpicc) postAccount() {
 	util := util.GetJinDouYunUtil(epicc.Address, epicc.AppId, epicc.AppKey)
 	//fmt.Printf("%s\n", util)
-	return
 	query := map[string]string{}
 	query["apiUrl"] = "accounts"
 
 	data := map[string]interface{}{}
 	data["account"] = map[string]string{
-		"user":epicc.User,
-		"pass":epicc.Pass,
-		"belong_org":epicc.BelongOrg,
-		"belong_department":epicc.BelongDepartment,
-		"belong_person":epicc.BelongPerson,
-		"operator_no":epicc.OperatorNo,
-		"business_src":epicc.BusinessSrc,
-		"agent_point":epicc.AgentPoint,
-		"xsryzyzhm":epicc.Xsryzyzhm,
-		"channel":epicc.Channel,
-		"proxy_id":epicc.ProxyId,
+		"user":              epicc.User,
+		"pass":              epicc.Pass,
+		"belong_org":        epicc.BelongOrg,
+		"belong_department": epicc.BelongDepartment,
+		"belong_person":     epicc.BelongPerson,
+		"operator_no":       epicc.OperatorNo,
+		"business_src":      epicc.BusinessSrc,
+		"agent_point":       epicc.AgentPoint,
+		"xsryzyzhm":         epicc.Xsryzyzhm,
+		"channel":           epicc.Channel,
+		"proxy_id":          epicc.ProxyId,
+		"sale_channel":      epicc.SalesChannel,
 	}
-	data["is_default"] = true
+	data["is_default"] = epicc.IsDefault
 	data["lock"] = false
 	contant := map[string]string{
 		"name":  "米米佛山人保测试",

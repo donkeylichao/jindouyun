@@ -10,11 +10,12 @@ import (
 )
 
 type JinDouYunConfig struct {
-	Address  string `json:"address"`
-	AppId    string `json:"app_id"`
-	AppKey   string `json:"app_key"`
-	CityCode string `json:"city_code"`
-	Id       string `json:"id"`
+	Address   string `json:"address"`
+	AppId     string `json:"app_id"`
+	AppKey    string `json:"app_key"`
+	CityCode  string `json:"city_code"`
+	Id        string `json:"id"`
+	IsDefault bool   `json:"is_default"`
 }
 
 /**
@@ -86,6 +87,24 @@ func (conf *JinDouYunConfig) SetCityCode() {
 	default:
 		fmt.Println("城市编码输入错误")
 		conf.SetCityCode()
+	}
+}
+
+func (conf *JinDouYunConfig) SetIsDefault() {
+	fmt.Println("是否为设置为默认账号:\n1.是\n2.否")
+	inputReader := bufio.NewReader(os.Stdin)
+	input, err := inputReader.ReadString('\n')
+	jdyError.CheckError(err, false)
+	input = strings.TrimSpace(input)
+
+	switch input {
+	case "1":
+		conf.IsDefault = true
+	case "2":
+		conf.IsDefault = false
+	default:
+		fmt.Println("输入错误")
+		conf.SetIsDefault()
 	}
 }
 
