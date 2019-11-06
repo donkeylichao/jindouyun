@@ -48,14 +48,19 @@ func (epicc *JinDouYunEpicc) Run() {
 		switch input {
 		case "3":
 			epicc.add()
+			os.Exit(0)
 		case "4":
 			epicc.update()
+			os.Exit(0)
 		case "5":
 			epicc.delete()
+			os.Exit(0)
 		case "1":
 			epicc.list()
+			os.Exit(0)
 		case "2":
 			epicc.detail()
+			os.Exit(0)
 		case "6":
 			println("取消操作")
 			os.Exit(0)
@@ -99,27 +104,105 @@ func (epicc *JinDouYunEpicc) add()  {
 func (epicc *JinDouYunEpicc) update() {
 	//fmt.Printf("%s\n", epicc)
 	epicc.Handle("id", epicc.SetId)
-	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请选择修改项:\n1.用户名(user)\n2.密码(pass)\n3.代理(proxy_id)\n4.城市(city_code)")
-	for {
-		input, err := inputReader.ReadString('\n')
-		jdyError.CheckError(err, true)
-		input = strings.TrimSpace(input)
-
-		switch input {
-		case "1":
-			fmt.Println("调用接口保存账号")
-			epicc.updateAccount()
-			os.Exit(0)
-		case "2":
-			epicc.update()
-		case "3":
-			fmt.Println("已取消操作")
-			os.Exit(0)
-		default:
-			continue
-		}
+	for epicc.Id == "" {
+		epicc.Handle("id", epicc.SetId)
 	}
+	inputReader := bufio.NewReader(os.Stdin)
+	fmt.Println("请选择修改项:\n1.用户名(user)\n2.密码(pass)\n3.代理(proxy_id)\n4.城市(city_code)\n" +
+		"5.出单机构(BelongOrg)\n6.归属部门(BelongDepartment)\n7.业务来源(BusinessSrc)\n" +
+			"8.归属人(BelongPerson)\n9.经办人(OperatorNo)\n10.验车人(StaffCode)\n11.中介机构销售人员名称(Xsryzyzhm)\n" +
+				"12.渠道代码(AgentPoint)\n13.项目代码(AgentType)\n14.销售渠道(SalesChannel)\n15.设置默认账号(IsDefault)")
+
+	input, err := inputReader.ReadString('\n')
+	jdyError.CheckError(err, true)
+	input = strings.TrimSpace(input)
+
+	switch input {
+	case "1":
+		epicc.Handle("用户名(User)", epicc.setUser)
+	case "2":
+		epicc.Handle("密码(Pass)",epicc.setPass)
+	case "3":
+		epicc.Handle("代理(ProxyId)",epicc.setProxyId)
+	case "4":
+		epicc.SetCityCode()
+	case "5":
+		epicc.SetCityCode()
+		epicc.Handle("用户名(User)", epicc.setUser)
+		epicc.Handle("密码(Pass)",epicc.setPass)
+		epicc.Handle("代理(ProxyId)",epicc.setProxyId)
+		epicc.Handle("出单机构(BelongOrg)",epicc.setBelongOrg)
+	case "6":
+		epicc.SetCityCode()
+		epicc.Handle("用户名(User)", epicc.setUser)
+		epicc.Handle("密码(Pass)",epicc.setPass)
+		epicc.Handle("代理(ProxyId)",epicc.setProxyId)
+		epicc.Handle("归属部门(BelongDepartment)",epicc.setBelongDepartment)
+	case "7":
+		epicc.SetCityCode()
+		epicc.Handle("用户名(User)", epicc.setUser)
+		epicc.Handle("密码(Pass)",epicc.setPass)
+		epicc.Handle("代理(ProxyId)",epicc.setProxyId)
+		epicc.Handle("归属部门(BelongDepartment)",epicc.setBelongDepartment)
+		epicc.Handle("业务来源(BusinessSrc)",epicc.setBusinessSrc)
+	case "8":
+		epicc.SetCityCode()
+		epicc.Handle("用户名(User)", epicc.setUser)
+		epicc.Handle("密码(Pass)",epicc.setPass)
+		epicc.Handle("代理(ProxyId)",epicc.setProxyId)
+		epicc.Handle("归属部门(BelongDepartment)",epicc.setBelongDepartment)
+		epicc.Handle("归属人(BelongPerson)",epicc.setBelongPerson)
+	case "9":
+		epicc.SetCityCode()
+		epicc.Handle("用户名(User)", epicc.setUser)
+		epicc.Handle("密码(Pass)",epicc.setPass)
+		epicc.Handle("代理(ProxyId)",epicc.setProxyId)
+		epicc.Handle("归属部门(BelongDepartment)",epicc.setBelongDepartment)
+		epicc.Handle("经办人(OperatorNo)",epicc.setOperatorNo)
+	case "10":
+		epicc.SetCityCode()
+		epicc.Handle("用户名(User)", epicc.setUser)
+		epicc.Handle("密码(Pass)",epicc.setPass)
+		epicc.Handle("代理(ProxyId)",epicc.setProxyId)
+		epicc.Handle("归属部门(BelongDepartment)",epicc.setBelongDepartment)
+		epicc.Handle("验车人(StaffCode)",epicc.setStaffCode)
+	case "11":
+		epicc.SetCityCode()
+		epicc.Handle("用户名(User)", epicc.setUser)
+		epicc.Handle("密码(Pass)",epicc.setPass)
+		epicc.Handle("代理(ProxyId)",epicc.setProxyId)
+		epicc.Handle("归属部门(BelongDepartment)",epicc.setBelongDepartment)
+		epicc.Handle("业务来源(BusinessSrc)",epicc.setBusinessSrc)
+		epicc.Handle("渠道代码(AgentPoint)",epicc.setAgentPoint)
+		epicc.Handle("中介机构销售人员名称(Xsryzyzhm)",epicc.setXsryzyzhm)
+	case "12":
+		epicc.SetCityCode()
+		epicc.Handle("用户名(User)", epicc.setUser)
+		epicc.Handle("密码(Pass)",epicc.setPass)
+		epicc.Handle("代理(ProxyId)",epicc.setProxyId)
+		epicc.Handle("归属部门(BelongDepartment)",epicc.setBelongDepartment)
+		epicc.Handle("业务来源(BusinessSrc)",epicc.setBusinessSrc)
+		epicc.Handle("渠道代码(AgentPoint)",epicc.setAgentPoint)
+	case "13":
+		epicc.Handle("项目代码(AgentType)",epicc.setAgentType)
+	case "14":
+		epicc.SetCityCode()
+		epicc.Handle("用户名(User)", epicc.setUser)
+		epicc.Handle("密码(Pass)",epicc.setPass)
+		epicc.Handle("代理(ProxyId)",epicc.setProxyId)
+		epicc.Handle("销售渠道(SalesChannel)",epicc.setSalesChannel)
+	case "15":
+		epicc.setIsDefault()
+		epicc.setDefault()
+		os.Exit(0)
+	case "20":
+		fmt.Println("已取消操作")
+		os.Exit(0)
+	default:
+		fmt.Println("非法操作")
+		os.Exit(0)
+	}
+	epicc.updateAccount()
 }
 
 /**
@@ -167,13 +250,13 @@ func (epicc *JinDouYunEpicc) Set() {
 		epicc.Handle("中介机构销售人员名称(Xsryzyzhm)",epicc.setXsryzyzhm)
 	}
 	if epicc.Saler == "" {
-		epicc.Handle("推荐送修代码(saler)", epicc.setSaler)
+		epicc.Handle("推荐送修代码(Saler)", epicc.setSaler)
 	}
 	if epicc.AgentType == "" {
-		epicc.Handle("项目代码(agent_type)", epicc.setAgentType)
+		epicc.Handle("项目代码(AgentType)", epicc.setAgentType)
 	}
 	if epicc.Comment == "" {
-		epicc.Handle("备注(comment)", epicc.setComment)
+		epicc.Handle("备注(Comment)", epicc.setComment)
 	}
 
 }
@@ -449,6 +532,25 @@ func (epicc *JinDouYunEpicc) setXsryzyzhm(input interface{}) {
 	fmt.Println("中介机构销售人员名称(Xsryzyzhm)的值未获取到")
 }
 
+func (epicc *JinDouYunEpicc) setIsDefault() {
+	inputReader := bufio.NewReader(os.Stdin)
+	fmt.Println("是否设置默认:\n1.是\n2.否")
+
+	input, err := inputReader.ReadString('\n')
+	jdyError.CheckError(err, true)
+	input = strings.TrimSpace(input)
+
+	switch input {
+	case "1":
+		epicc.IsDefault = true
+	case "2":
+		epicc.IsDefault = false
+	default:
+		fmt.Println("输入值不合法")
+		epicc.setIsDefault()
+	}
+}
+
 /**
 添加账号
  */
@@ -552,10 +654,10 @@ func (epicc *JinDouYunEpicc) updateAccount() {
 		account["saler"] = epicc.Saler
 	}
 
-	if len(account) == 0 {
+	if len(account) != 0 {
 		data["account"] = account
 	}
-	data["is_default"] = epicc.IsDefault
+	data["ic_code"] = "epicc"
 	data["lock"] = false
 	//contant := map[string]string{
 	//	"name":  "米米佛山人保测试",
@@ -569,6 +671,20 @@ func (epicc *JinDouYunEpicc) updateAccount() {
 	if epicc.CityCode != "" {
 		data["city_code"] = epicc.CityCode
 	}
+
+	re, err := util.Request(query, "PATCH", data)
+	jdyError.CheckError(err, true)
+	fmt.Printf("%s\n", re)
+}
+
+func (epicc *JinDouYunEpicc) setDefault() {
+	util := util.GetJinDouYunUtil(epicc.Address, epicc.AppId, epicc.AppKey)
+	//fmt.Printf("%s\n", util)
+	query := map[string]string{}
+	query["apiUrl"] = "accounts/"+ epicc.Id
+
+	data := map[string]interface{}{}
+	data["is_default"] = epicc.IsDefault
 
 	re, err := util.Request(query, "PATCH", data)
 	jdyError.CheckError(err, true)

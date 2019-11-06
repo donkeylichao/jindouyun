@@ -41,15 +41,28 @@ func (conf *JinDouYunConfig) getList() {
 获取详情
  */
 func (conf *JinDouYunConfig) detail() {
+	conf.Handle("id", conf.SetId)
+	util := util.GetJinDouYunUtil(conf.Address, conf.AppId, conf.AppKey)
+	query := map[string]string{}
+	query["apiUrl"] = "accounts/"+ conf.Id
 
+	re, err := util.Request(query, "GET", nil)
+	jdyError.CheckError(err, true)
+	fmt.Printf("%s\n", re)
 }
 
 /**
 删除操作
  */
-
 func (conf *JinDouYunConfig) delete() {
+	conf.Handle("id", conf.SetId)
+	util := util.GetJinDouYunUtil(conf.Address, conf.AppId, conf.AppKey)
+	query := map[string]string{}
+	query["apiUrl"] = "accounts/"+ conf.Id
 
+	re, err := util.Request(query, "DELETE", nil)
+	jdyError.CheckError(err, true)
+	fmt.Printf("%s\n", re)
 }
 
 /**
