@@ -16,6 +16,7 @@ import (
 	"strings"
 	"strconv"
 	"crypto/sha256"
+	"os"
 )
 
 type JinDouYunUtil struct {
@@ -41,6 +42,10 @@ func (u *JinDouYunUtil) Request(query map[string]string, method string, data map
 	uri := u.Url + "/" + u.getApiQueryString(query)
 	//println(uri[:len(uri)-1])
 	//return nil,nil
+	if u.AppKey == "" || u.AppId == "" || u.Url == "" {
+		fmt.Println("address,appid,appkey 没有设置")
+		os.Exit(0)
+	}
 	jsonStr, err := json.Marshal(data)
 
 	req, err := http.NewRequest(method, uri[:len(uri)-1], bytes.NewBuffer(jsonStr))

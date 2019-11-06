@@ -30,6 +30,9 @@ type JinDouYunEpicc struct {
 	AgentPoint       string `json:"agent_point"`
 	Xsryzyzhm        string `json:"xsryzyzhm"`
 	StaffCode        string `json:"staff_code"`
+	Saler            string `json:"saler"`
+	AgentType        string `json:"agent_type"`
+	Comment          string `json:"comment"`
 }
 
 /**********************人保操作开始*************************/
@@ -94,10 +97,10 @@ func (epicc *JinDouYunEpicc) add()  {
 编辑操作
  */
 func (epicc *JinDouYunEpicc) update() {
-	epicc.Set()
 	//fmt.Printf("%s\n", epicc)
+	epicc.Handle("id", epicc.SetId)
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请确认:\n1.正确\n2.重新设置\n3.取消")
+	fmt.Println("请选择修改项:\n1.用户名(user)\n2.密码(pass)\n3.代理(proxy_id)\n4.城市(city_code)")
 	for {
 		input, err := inputReader.ReadString('\n')
 		jdyError.CheckError(err, true)
@@ -109,7 +112,6 @@ func (epicc *JinDouYunEpicc) update() {
 			epicc.updateAccount()
 			os.Exit(0)
 		case "2":
-			epicc.Clear()
 			epicc.update()
 		case "3":
 			fmt.Println("已取消操作")
@@ -124,15 +126,6 @@ func (epicc *JinDouYunEpicc) update() {
 设置各种参数
  */
 func (epicc *JinDouYunEpicc) Set() {
-	if epicc.Address == "" {
-		epicc.Handle("Address", epicc.SetAddress)
-	}
-	if epicc.AppId == "" {
-		epicc.Handle("AppId", epicc.SetAppId)
-	}
-	if epicc.AppKey == "" {
-		epicc.Handle("AppKey", epicc.SetAppKey)
-	}
 	if epicc.CityCode == "" {
 		epicc.SetCityCode()
 	}
@@ -173,6 +166,15 @@ func (epicc *JinDouYunEpicc) Set() {
 	if epicc.Xsryzyzhm == "" {
 		epicc.Handle("中介机构销售人员名称(Xsryzyzhm)",epicc.setXsryzyzhm)
 	}
+	if epicc.Saler == "" {
+		epicc.Handle("推荐送修代码(saler)", epicc.setSaler)
+	}
+	if epicc.AgentType == "" {
+		epicc.Handle("项目代码(agent_type)", epicc.setAgentType)
+	}
+	if epicc.Comment == "" {
+		epicc.Handle("备注(comment)", epicc.setComment)
+	}
 
 }
 
@@ -192,6 +194,9 @@ func (epicc *JinDouYunEpicc) Clear()  {
 	epicc.Xsryzyzhm = ""
 	epicc.Id = ""
 	epicc.Channel = ""
+	epicc.Saler = ""
+	epicc.AgentType = ""
+	epicc.Comment = ""
 }
 /**********************参数赋值方法*************************/
 
@@ -205,6 +210,15 @@ func (epicc *JinDouYunEpicc) setUser(user interface{}) {
 
 func (epicc *JinDouYunEpicc) setPass(pass interface{}) {
 	epicc.Pass = pass.(string)
+}
+func (epicc *JinDouYunEpicc) setComment(comment interface{}) {
+	epicc.Comment = comment.(string)
+}
+func (epicc *JinDouYunEpicc) setSaler(saler interface{}) {
+	epicc.Saler = saler.(string)
+}
+func (epicc *JinDouYunEpicc) setAgentType(agentType interface{}) {
+	epicc.AgentType = agentType.(string)
 }
 
 func (epicc *JinDouYunEpicc) setBelongOrg(belong interface{}) {
@@ -458,6 +472,9 @@ func (epicc *JinDouYunEpicc) postAccount() {
 		"channel":           epicc.Channel,
 		"proxy_id":          epicc.ProxyId,
 		"sale_channel":      epicc.SalesChannel,
+		"comment":           epicc.Comment,
+		"agent_type":        epicc.AgentType,
+		"saler":             epicc.Saler,
 	}
 	data["is_default"] = epicc.IsDefault
 	data["lock"] = false
@@ -481,7 +498,81 @@ func (epicc *JinDouYunEpicc) postAccount() {
 编辑账号
  */
 func (epicc *JinDouYunEpicc) updateAccount() {
+	util := util.GetJinDouYunUtil(epicc.Address, epicc.AppId, epicc.AppKey)
+	//fmt.Printf("%s\n", util)
+	query := map[string]string{}
+	query["apiUrl"] = "accounts/"+ epicc.Id
 
+	data := map[string]interface{}{}
+	account := map[string]string{}
+
+	if epicc.User != "" {
+		account["user"] = epicc.User
+	}
+	if epicc.Pass != "" {
+		account["pass"] = epicc.Pass
+	}
+	if epicc.BelongOrg != "" {
+		account["belong_org"] = epicc.BelongOrg
+	}
+	if epicc.BelongDepartment != "" {
+		account["belong_department"] = epicc.BelongDepartment
+	}
+	if epicc.BelongPerson != "" {
+		account["belong_person"] = epicc.BelongPerson
+	}
+	if epicc.OperatorNo != "" {
+		account["operator_no"] = epicc.OperatorNo
+	}
+	if epicc.BusinessSrc != "" {
+		account["business_src"] = epicc.BusinessSrc
+	}
+	if epicc.AgentPoint != "" {
+		account["agent_point"] = epicc.AgentPoint
+	}
+	if epicc.Xsryzyzhm != "" {
+		account["xsryzyzhm"] = epicc.Xsryzyzhm
+	}
+	if epicc.Channel != "" {
+		account["channel"] = epicc.Channel
+	}
+	if epicc.ProxyId != "" {
+		account["proxy_id"] = epicc.ProxyId
+	}
+	if epicc.SalesChannel != "" {
+		account["sale_channel"] = epicc.SalesChannel
+	}
+	if epicc.Comment != "" {
+		account["comment"] = epicc.Comment
+	}
+	if epicc.AgentType != "" {
+		account["agent_type"] = epicc.AgentType
+	}
+	if epicc.Saler != "" {
+		account["saler"] = epicc.Saler
+	}
+
+	if len(account) == 0 {
+		data["account"] = account
+	}
+	data["is_default"] = epicc.IsDefault
+	data["lock"] = false
+	//contant := map[string]string{
+	//	"name":  "米米佛山人保测试",
+	//	"email": "529755212@qq.com",
+	//	"phone": "18201695833",
+	//}
+	//contactList := make([]map[string]string, 0)
+	//contactList = append(contactList,contant)
+	//data["contacts"] = contactList
+	//data["ic_code"] = "epicc"
+	if epicc.CityCode != "" {
+		data["city_code"] = epicc.CityCode
+	}
+
+	re, err := util.Request(query, "PATCH", data)
+	jdyError.CheckError(err, true)
+	fmt.Printf("%s\n", re)
 }
 
 /**

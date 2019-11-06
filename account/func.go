@@ -52,6 +52,17 @@ func GetCompany(company int) interface{} {
 		jdyError.CheckError(err, true)
 		err = json.Unmarshal(conf, &jdyConf)
 		jdyError.CheckError(err, true)
+
+		if jdyConf.Address == "" {
+			jdyConf.Handle("Address", jdyConf.SetAddress)
+		}
+		if jdyConf.AppId == "" {
+			jdyConf.Handle("AppId", jdyConf.SetAppId)
+		}
+		if jdyConf.AppKey == "" {
+			jdyConf.Handle("AppKey", jdyConf.SetAppKey)
+		}
+
 		return jdyConf
 	case 2:
 		var jdyConf JinDouYunTpy
@@ -59,6 +70,17 @@ func GetCompany(company int) interface{} {
 		jdyError.CheckError(err, true)
 		err = json.Unmarshal(conf, &jdyConf)
 		jdyError.CheckError(err, true)
+
+		if jdyConf.Address == "" {
+			jdyConf.Handle("Address", jdyConf.SetAddress)
+		}
+		if jdyConf.AppId == "" {
+			jdyConf.Handle("AppId", jdyConf.SetAppId)
+		}
+		if jdyConf.AppKey == "" {
+			jdyConf.Handle("AppKey", jdyConf.SetAppKey)
+		}
+
 		return jdyConf
 	case 3:
 		var jdyConf JinDouYunPinAn
@@ -66,6 +88,17 @@ func GetCompany(company int) interface{} {
 		jdyError.CheckError(err, true)
 		err = json.Unmarshal(conf, &jdyConf)
 		jdyError.CheckError(err, true)
+
+		if jdyConf.Address == "" {
+			jdyConf.Handle("Address", jdyConf.SetAddress)
+		}
+		if jdyConf.AppId == "" {
+			jdyConf.Handle("AppId", jdyConf.SetAppId)
+		}
+		if jdyConf.AppKey == "" {
+			jdyConf.Handle("AppKey", jdyConf.SetAppKey)
+		}
+
 		return jdyConf
 	}
 	return nil

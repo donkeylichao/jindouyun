@@ -43,6 +43,16 @@ func proxyHandle() {
 	err = json.Unmarshal(conf, &jdyProxy)
 	jdyError.CheckError(err, true)
 
+	if jdyProxy.Address == "" {
+		jdyProxy.Handle("Address", jdyProxy.SetAddress)
+	}
+	if jdyProxy.AppId == "" {
+		jdyProxy.Handle("AppId", jdyProxy.SetAppId)
+	}
+	if jdyProxy.AppKey == "" {
+		jdyProxy.Handle("AppKey", jdyProxy.SetAppKey)
+	}
+
 	switch input {
 	case "1":
 		jdyProxy.List()
