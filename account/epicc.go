@@ -580,6 +580,7 @@ func (epicc *JinDouYunEpicc) postAccount() {
 	}
 	data["is_default"] = epicc.IsDefault
 	data["lock"] = false
+	data["disabled"] = false
 	contant := map[string]string{
 		"name":  "米米佛山人保测试",
 		"email": "529755212@qq.com",
@@ -659,6 +660,7 @@ func (epicc *JinDouYunEpicc) updateAccount() {
 	}
 	data["ic_code"] = "epicc"
 	data["lock"] = false
+	data["disabled"] = false
 	//contant := map[string]string{
 	//	"name":  "米米佛山人保测试",
 	//	"email": "529755212@qq.com",
