@@ -8,6 +8,7 @@ import (
 	"bufio"
 	"os"
 	"strings"
+	"../helper"
 )
 
 type JinDouYunProxy struct {
@@ -23,7 +24,7 @@ func (p *JinDouYunProxy) List() {
 
 	re, err := util.Request(query, "GET", nil)
 	jdyError.CheckError(err, true)
-	fmt.Printf("%s\n", re)
+	helper.FormatOutPut(re)
 }
 
 func (p *JinDouYunProxy) Add()  {
@@ -67,7 +68,7 @@ func (p *JinDouYunProxy) add()  {
 	re, err := util.Request(query, "POST", data)
 	jdyError.CheckError(err,true)
 
-	fmt.Printf("%s\n", re)
+	helper.FormatOutPut(re)
 }
 
 func (p *JinDouYunProxy) Update() {
@@ -110,7 +111,7 @@ func (p *JinDouYunProxy) update()  {
 	re, err := util.Request(query, "PATCH", data)
 	jdyError.CheckError(err,true)
 
-	fmt.Printf("%s\n", re)
+	helper.FormatOutPut(re)
 }
 
 func (p *JinDouYunProxy) Set() {

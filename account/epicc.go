@@ -9,6 +9,7 @@ import (
 	"../util"
 	"encoding/json"
 	"../data"
+	"../helper"
 )
 
 /**
@@ -594,7 +595,7 @@ func (epicc *JinDouYunEpicc) postAccount() {
 
 	re, err := util.Request(query, "POST", data)
 	jdyError.CheckError(err, true)
-	fmt.Printf("%s\n", re)
+	helper.FormatOutPut(re)
 }
 
 /**
@@ -676,7 +677,7 @@ func (epicc *JinDouYunEpicc) updateAccount() {
 
 	re, err := util.Request(query, "PATCH", data)
 	jdyError.CheckError(err, true)
-	fmt.Printf("%s\n", re)
+	helper.FormatOutPut(re)
 }
 
 func (epicc *JinDouYunEpicc) setDefault() {
@@ -690,7 +691,7 @@ func (epicc *JinDouYunEpicc) setDefault() {
 
 	re, err := util.Request(query, "PATCH", data)
 	jdyError.CheckError(err, true)
-	fmt.Printf("%s\n", re)
+	helper.FormatOutPut(re)
 }
 
 /**
