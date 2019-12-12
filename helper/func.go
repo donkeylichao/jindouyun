@@ -3,7 +3,7 @@ package helper
 import (
 	"encoding/json"
 	"bytes"
-	"../jdyError"
+	"jindouyun/jdyError"
 	"fmt"
 )
 

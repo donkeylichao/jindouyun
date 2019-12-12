@@ -8,7 +8,7 @@ import (
 	"bufio"
 	"os"
 	"strings"
-	"../helper"
+	"jindouyun/helper"
 )
 
 type JinDouYunProxy struct {
