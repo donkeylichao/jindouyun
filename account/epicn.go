@@ -7,6 +7,7 @@ import (
 	"jindouyun/jdyError"
 	"strings"
 	"jindouyun/util"
+	"jindouyun/helper"
 )
 
 /**
@@ -169,7 +170,7 @@ func (tpy *JinDouYunTpy) postAccount() {
 
 	re, err := util.Request(query, "POST", data)
 	jdyError.CheckError(err, true)
-	fmt.Printf("%s\n", re)
+	helper.FormatOutPut(re)
 }
 
 /**

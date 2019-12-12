@@ -7,6 +7,7 @@ import (
 	"bufio"
 	"strings"
 	"jindouyun/util"
+	"jindouyun/helper"
 )
 
 type JinDouYunConfig struct {
@@ -34,7 +35,8 @@ func (conf *JinDouYunConfig) getList() {
 
 	re, err := util.Request(query, "GET", nil)
 	jdyError.CheckError(err, true)
-	fmt.Printf("%s\n", re)
+
+	helper.FormatOutPut(re)
 }
 
 /**
@@ -48,7 +50,7 @@ func (conf *JinDouYunConfig) detail() {
 
 	re, err := util.Request(query, "GET", nil)
 	jdyError.CheckError(err, true)
-	fmt.Printf("%s\n", re)
+	helper.FormatOutPut(re)
 }
 
 /**
@@ -62,7 +64,7 @@ func (conf *JinDouYunConfig) delete() {
 
 	re, err := util.Request(query, "DELETE", nil)
 	jdyError.CheckError(err, true)
-	fmt.Printf("%s\n", re)
+	helper.FormatOutPut(re)
 }
 
 /**
