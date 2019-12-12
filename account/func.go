@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"io/ioutil"
-	"../jdyError"
+	"jindouyun/jdyError"
 	"encoding/json"
 )
 

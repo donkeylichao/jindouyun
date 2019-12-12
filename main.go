@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"./jdyError"
+	"jindouyun/jdyError"
 	"bufio"
 	"os"
 	"strings"
-	"./account"
-	"./proxy"
+	"jindouyun/account"
+	"jindouyun/proxy"
 	"encoding/json"
 )
 

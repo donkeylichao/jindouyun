@@ -2,11 +2,11 @@ package account
 
 import (
 	"os"
-	"../jdyError"
+	"jindouyun/jdyError"
 	"fmt"
 	"bufio"
 	"strings"
-	"../util"
+	"jindouyun/util"
 )
 
 type JinDouYunConfig struct {

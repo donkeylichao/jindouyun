@@ -1,9 +1,9 @@
 package proxy
 
 import (
-	"../account"
-	"../jdyError"
-	"../util"
+	"jindouyun/account"
+	"jindouyun/jdyError"
+	"jindouyun/util"
 	"fmt"
 	"bufio"
 	"os"

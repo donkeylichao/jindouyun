@@ -1,12 +1,12 @@
 package account
 
 import (
-	"../jdyError"
+	"jindouyun/jdyError"
 	"fmt"
 	"bufio"
 	"os"
 	"strings"
-	"../util"
+	"jindouyun/util"
 )
 
 /**

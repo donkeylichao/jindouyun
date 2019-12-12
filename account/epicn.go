@@ -4,9 +4,9 @@ import (
 	"bufio"
 	"os"
 	"fmt"
-	"../jdyError"
+	"jindouyun/jdyError"
 	"strings"
-	"../util"
+	"jindouyun/util"
 )
 
 /**
