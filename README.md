@@ -1,4 +1,4 @@
-### tools 教程 ###
+### jindouyun 教程 ###
 
 #### 安装 ####
 1. 安装go环境(已安装环境忽略)
@@ -11,7 +11,7 @@ go version
 ```
 2. 下载代码
 ```
-git clone git@github.com:donkeylichao/tools.git
+git clone git@github.com:donkeylichao/jindouyun.git
 ```
 - 运行如下命令编译软件
 ```
