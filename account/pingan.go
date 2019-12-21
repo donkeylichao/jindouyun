@@ -22,7 +22,7 @@ type JinDouYunPinAn struct {
 
 func (pingan *JinDouYunPinAn) Run() {
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("选择操作:\n1.列表\n2.详情\n3.添加\n4.编辑\n5.删除\n6.取消操作")
+	fmt.Print("选择操作:\n1.列表\n2.详情\n3.添加\n4.编辑\n5.删除\n6.取消操作\n> ")
 	for {
 		input, err := inputReader.ReadString('\n')
 		jdyError.CheckError(err, true)
@@ -53,7 +53,7 @@ func (pingan *JinDouYunPinAn) Run() {
  */
 func (pingan *JinDouYunPinAn) list() {
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请选择:\n1.查看\n2.返回\n3.退出")
+	fmt.Print("请选择:\n1.查看\n2.返回\n3.退出\n> ")
 	for {
 		input, err := inputReader.ReadString('\n')
 		jdyError.CheckError(err, true)
@@ -79,7 +79,7 @@ func (pingan *JinDouYunPinAn) add()  {
 	//fmt.Printf("%s\n", epicc)
 	return
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请确认:\n1.正确\n2.重新设置\n3.取消")
+	fmt.Print("请确认:\n1.正确\n2.重新设置\n3.取消\n> ")
 	for {
 		input, err := inputReader.ReadString('\n')
 		jdyError.CheckError(err, true)
@@ -109,7 +109,7 @@ func (pingan *JinDouYunPinAn) update() {
 	//fmt.Printf("%s\n", epicc)
 	return
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请确认:\n1.正确\n2.重新设置\n3.取消")
+	fmt.Print("请确认:\n1.正确\n2.重新设置\n3.取消\n> ")
 	for {
 		input, err := inputReader.ReadString('\n')
 		jdyError.CheckError(err, true)

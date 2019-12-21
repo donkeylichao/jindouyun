@@ -72,7 +72,7 @@ func (conf *JinDouYunConfig) delete() {
  */
 func (conf *JinDouYunConfig) Handle(lab string, handler HandleFunc) {
 
-	fmt.Printf("输入%s的值:\n", lab)
+	fmt.Printf("输入%s的值:\n> ", lab)
 	inputReader := bufio.NewReader(os.Stdin)
 	input, err := inputReader.ReadString('\n')
 	jdyError.CheckError(err, false)
@@ -88,7 +88,7 @@ func (conf *JinDouYunConfig) Handle(lab string, handler HandleFunc) {
 }
 
 func (conf *JinDouYunConfig) SetCityCode() {
-	fmt.Println("请选择城市编码的值:\n1.佛山\n2.东莞")
+	fmt.Print("请选择城市编码的值:\n1.佛山\n2.东莞\n> ")
 	inputReader := bufio.NewReader(os.Stdin)
 	input, err := inputReader.ReadString('\n')
 	jdyError.CheckError(err, false)
@@ -106,7 +106,7 @@ func (conf *JinDouYunConfig) SetCityCode() {
 }
 
 func (conf *JinDouYunConfig) SetIsDefault() {
-	fmt.Println("是否为设置为默认账号:\n1.是\n2.否")
+	fmt.Print("是否为设置为默认账号:\n1.是\n2.否\n> ")
 	inputReader := bufio.NewReader(os.Stdin)
 	input, err := inputReader.ReadString('\n')
 	jdyError.CheckError(err, false)

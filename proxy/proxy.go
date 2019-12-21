@@ -32,7 +32,7 @@ func (p *JinDouYunProxy) Add()  {
 	//fmt.Printf("%s\n", p)
 	//return
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请确认:\n1.正确\n2.重新设置\n3.取消")
+	fmt.Print("请确认:\n1.正确\n2.重新设置\n3.取消\n> ")
 	for {
 		input, err := inputReader.ReadString('\n')
 		jdyError.CheckError(err, true)
@@ -76,7 +76,7 @@ func (p *JinDouYunProxy) Update() {
 	//fmt.Printf("%s\n", p)
 	//return
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请确认:\n1.正确\n2.重新设置\n3.取消")
+	fmt.Print("请确认:\n1.正确\n2.重新设置\n3.取消\n> ")
 	for {
 		input, err := inputReader.ReadString('\n')
 		jdyError.CheckError(err, true)

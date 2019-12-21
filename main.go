@@ -13,11 +13,10 @@ import (
 
 func main() {
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请选择操作:\n1.代理\n2.账号\n3.元数据")
+	fmt.Print("请选择操作:\n1.代理\n2.账号\n3.元数据\n> ")
 	input, err := inputReader.ReadString('\n')
 	jdyError.CheckError(err, true)
 	input = strings.TrimSpace(input)
-
 	switch input {
 	case "1":
 		proxyHandle()
@@ -32,13 +31,13 @@ func main() {
 
 func proxyHandle() {
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请选择操作:\n1.列表\n2.添加\n3.编辑")
+	fmt.Print("请选择操作:\n1.列表\n2.添加\n3.编辑\n> ")
 	input, err := inputReader.ReadString('\n')
 	jdyError.CheckError(err, true)
 	input = strings.TrimSpace(input)
 
 	var jdyProxy proxy.JinDouYunProxy
-	conf, err := account.ReadAll("./config.json")
+	conf, err := account.ReadAll("config.json")
 	jdyError.CheckError(err, true)
 	err = json.Unmarshal(conf, &jdyProxy)
 	jdyError.CheckError(err, true)
@@ -67,7 +66,7 @@ func proxyHandle() {
 
 func accountHandle() {
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请选择公司:\n1.人保\n2.太平洋\n3.平安")
+	fmt.Print("请选择公司:\n1.人保\n2.太平洋\n3.平安\n> ")
 	input, err := inputReader.ReadString('\n')
 	jdyError.CheckError(err, true)
 	input = strings.TrimSpace(input)

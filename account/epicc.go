@@ -40,7 +40,7 @@ type JinDouYunEpicc struct {
 
 func (epicc *JinDouYunEpicc) Run() {
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("选择操作:\n1.列表\n2.详情\n3.添加\n4.编辑\n5.删除\n6.取消操作")
+	fmt.Print("选择操作:\n1.列表\n2.详情\n3.添加\n4.编辑\n5.删除\n6.取消操作\n> ")
 	for {
 		input, err := inputReader.ReadString('\n')
 		jdyError.CheckError(err, true)
@@ -76,7 +76,7 @@ func (epicc *JinDouYunEpicc) add()  {
 	//fmt.Printf("%s\n", epicc)
 	//return
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请确认:\n1.正确\n2.重新设置\n3.取消")
+	fmt.Print("请确认:\n1.正确\n2.重新设置\n3.取消\n> ")
 	for {
 		input, err := inputReader.ReadString('\n')
 		jdyError.CheckError(err, true)
@@ -112,7 +112,7 @@ func (epicc *JinDouYunEpicc) update() {
 	fmt.Println("请选择修改项:\n1.用户名(user)\n2.密码(pass)\n3.代理(proxy_id)\n4.城市(city_code)\n" +
 		"5.出单机构(BelongOrg)\n6.归属部门(BelongDepartment)\n7.业务来源(BusinessSrc)\n" +
 			"8.归属人(BelongPerson)\n9.经办人(OperatorNo)\n10.验车人(StaffCode)\n11.中介机构销售人员名称(Xsryzyzhm)\n" +
-				"12.渠道代码(AgentPoint)\n13.项目代码(AgentType)\n14.销售渠道(SalesChannel)\n15.设置默认账号(IsDefault)")
+				"12.渠道代码(AgentPoint)\n13.项目代码(AgentType)\n14.销售渠道(SalesChannel)\n15.设置默认账号(IsDefault)\n> ")
 
 	input, err := inputReader.ReadString('\n')
 	jdyError.CheckError(err, true)
@@ -699,7 +699,7 @@ func (epicc *JinDouYunEpicc) setDefault() {
  */
 func (epicc *JinDouYunEpicc) list() {
 	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Println("请选择:\n1.查看\n2.返回\n3.退出")
+	fmt.Print("请选择:\n1.查看\n2.返回\n3.退出\n> ")
 	for {
 		input, err := inputReader.ReadString('\n')
 		jdyError.CheckError(err, true)
