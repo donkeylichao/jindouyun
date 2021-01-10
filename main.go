@@ -1,40 +1,38 @@
 package main
 
 import (
-	"fmt"
-	"jindouyun/jdyError"
 	"bufio"
+	"encoding/json"
+	"fmt"
+	"jindouyun/account"
+	"jindouyun/jdyError"
+	"jindouyun/prompt"
+	"jindouyun/proxy"
 	"os"
 	"strings"
-	"jindouyun/account"
-	"jindouyun/proxy"
-	"encoding/json"
 )
 
 func main() {
-	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Print("请选择操作:\n1.代理\n2.账号\n3.元数据\n> ")
-	input, err := inputReader.ReadString('\n')
-	jdyError.CheckError(err, true)
-	input = strings.TrimSpace(input)
-	switch input {
-	case "1":
-		proxyHandle()
-	case "2":
-		accountHandle()
-	case "3":
-		metaHandle()
-	default:
-		jdyError.CheckError(jdyError.ErrNotSupportHandle, true)
+	prompt.Info("请选择操作:\n1.代理\n2.账号\n3.元数据")
+	inputScan := bufio.NewScanner(os.Stdin)
+	for inputScan.Scan() {
+		input := inputScan.Text()
+		switch input {
+		case "1":
+			proxyHandle()
+		case "2":
+			accountHandle()
+		case "3":
+			metaHandle()
+		default:
+			jdyError.CheckError(jdyError.ErrNotSupportHandle, true)
+		}
 	}
 }
 
 func proxyHandle() {
-	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Print("请选择操作:\n1.列表\n2.添加\n3.编辑\n> ")
-	input, err := inputReader.ReadString('\n')
-	jdyError.CheckError(err, true)
-	input = strings.TrimSpace(input)
+	inputReader := bufio.NewScanner(os.Stdin)
+	prompt.Info("请选择操作:\n1.列表\n2.添加\n3.编辑")
 
 	var jdyProxy proxy.JinDouYunProxy
 	conf, err := account.ReadAll("config.json")
@@ -52,15 +50,18 @@ func proxyHandle() {
 		jdyProxy.Handle("AppKey", jdyProxy.SetAppKey)
 	}
 
-	switch input {
-	case "1":
-		jdyProxy.List()
-	case "2":
-		jdyProxy.Add()
-	case "3":
-		jdyProxy.Update()
-	default:
-		jdyError.CheckError(jdyError.ErrNotSupportHandle, true)
+	for inputReader.Scan() {
+		input := inputReader.Text()
+		switch input {
+		case "1":
+			jdyProxy.List()
+		case "2":
+			jdyProxy.Add()
+		case "3":
+			jdyProxy.Update()
+		default:
+			jdyError.CheckError(jdyError.ErrNotSupportHandle, true)
+		}
 	}
 }
 

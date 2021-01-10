@@ -3,6 +3,7 @@ package proxy
 import (
 	"jindouyun/account"
 	"jindouyun/jdyError"
+	"jindouyun/prompt"
 	"jindouyun/util"
 	"fmt"
 	"bufio"
@@ -31,23 +32,20 @@ func (p *JinDouYunProxy) Add()  {
 	p.Set()
 	//fmt.Printf("%s\n", p)
 	//return
-	inputReader := bufio.NewReader(os.Stdin)
-	fmt.Print("请确认:\n1.正确\n2.重新设置\n3.取消\n> ")
-	for {
-		input, err := inputReader.ReadString('\n')
-		jdyError.CheckError(err, true)
-		input = strings.TrimSpace(input)
-
+	inputReader := bufio.NewScanner(os.Stdin)
+	prompt.Info("请确认:\n1.正确\n2.重新设置\n3.取消")
+	for inputReader.Scan() {
+		input := inputReader.Text()
 		switch input {
 		case "1":
-			fmt.Println("调用接口保存账号")
+			prompt.Info("调用接口保存账号")
 			p.add()
 			os.Exit(0)
 		case "2":
 			p.Clear()
 			p.Add()
 		case "3":
-			fmt.Println("已取消操作")
+			prompt.Info("已取消操作")
 			os.Exit(0)
 		default:
 			continue
