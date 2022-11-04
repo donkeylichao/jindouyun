@@ -1,11 +1,11 @@
 package account
 
 import (
-	"fmt"
-	"os"
-	"io/ioutil"
-	"jindouyun/jdyError"
 	"encoding/json"
+	"fmt"
+	"github.com/donkeylichao/jindouyun/jdyError"
+	"io/ioutil"
+	"os"
 )
 
 /**

@@ -1,15 +1,15 @@
 package proxy
 
 import (
-	"jindouyun/account"
-	"jindouyun/jdyError"
-	"jindouyun/prompt"
-	"jindouyun/util"
-	"fmt"
 	"bufio"
+	"fmt"
+	"github.com/donkeylichao/jindouyun/account"
+	"github.com/donkeylichao/jindouyun/helper"
+	"github.com/donkeylichao/jindouyun/jdyError"
+	"github.com/donkeylichao/jindouyun/prompt"
+	"github.com/donkeylichao/jindouyun/util"
 	"os"
 	"strings"
-	"jindouyun/helper"
 )
 
 type JinDouYunProxy struct {

@@ -1,15 +1,15 @@
 package account
 
 import (
-	"jindouyun/jdyError"
 	"bufio"
-	"os"
-	"fmt"
-	"strings"
-	"jindouyun/util"
 	"encoding/json"
-	"jindouyun/data"
-	"jindouyun/helper"
+	"fmt"
+	"github.com/donkeylichao/jindouyun/data"
+	"github.com/donkeylichao/jindouyun/helper"
+	"github.com/donkeylichao/jindouyun/jdyError"
+	"github.com/donkeylichao/jindouyun/util"
+	"os"
+	"strings"
 )
 
 /**

@@ -2,21 +2,21 @@ package util
 
 import (
 	"bytes"
+	"crypto/hmac"
+	"crypto/md5"
+	"crypto/sha256"
+	"encoding/json"
+	"fmt"
+	"github.com/donkeylichao/jindouyun/jdyError"
+	"io"
 	"io/ioutil"
 	"net/http"
-	"encoding/json"
-	"time"
-	"jindouyun/jdyError"
 	"net/url"
-	"sort"
-	"crypto/md5"
-	"io"
-	"fmt"
-	"crypto/hmac"
-	"strings"
-	"strconv"
-	"crypto/sha256"
 	"os"
+	"sort"
+	"strconv"
+	"strings"
+	"time"
 )
 
 type JinDouYunUtil struct {

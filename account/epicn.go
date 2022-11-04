@@ -2,12 +2,12 @@ package account
 
 import (
 	"bufio"
-	"os"
 	"fmt"
-	"jindouyun/jdyError"
+	"github.com/donkeylichao/jindouyun/helper"
+	"github.com/donkeylichao/jindouyun/jdyError"
+	"github.com/donkeylichao/jindouyun/util"
+	"os"
 	"strings"
-	"jindouyun/util"
-	"jindouyun/helper"
 )
 
 /**

@@ -1,10 +1,10 @@
 package helper
 
 import (
-	"encoding/json"
 	"bytes"
-	"jindouyun/jdyError"
+	"encoding/json"
 	"fmt"
+	"github.com/donkeylichao/jindouyun/jdyError"
 )
 
 func FormatOutPut(re []byte) {
