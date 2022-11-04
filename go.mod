@@ -1,4 +1,4 @@
-module jindouyun
+module github.com/donkeylichao/jindouyun
 
 go 1.14
 
